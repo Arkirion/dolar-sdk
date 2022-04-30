@@ -14,11 +14,10 @@ const currencyStrategyFactory = (source: Source) : any =>  {
 };
 
 export default class Currencies {
-  private strategy: BaseCurrencyStrategy | undefined; //change to CurrencyStrategy
+  private strategy!: BaseCurrencyStrategy
   currency1: CurrencySymbol;
   currency2: CurrencySymbol;
   data: any;
-  // sourceWrapper;
 
   constructor(
     source: Source
@@ -32,7 +31,7 @@ export default class Currencies {
 
   /**
    * Used to initialize and update data
-   * optional : { date: from, to, source? }
+   * TODO: optional : { date: from, to, source? }
    */
   async initiateData(): Promise<void> {
     await this.strategy?.initiateData();
@@ -45,13 +44,16 @@ export default class Currencies {
     return this.strategy.getCurrency();
   }
 
-  setStrategy(strategy: BaseCurrencyStrategy) {
+  setStrategy(strategy: BaseCurrencyStrategy): void {
     this.strategy = strategy;
   }
 
-  getExchange(from: CurrencySymbol, to: CurrencySymbol) {
+  getExchange(amount:number, from: CurrencySymbol, to: CurrencySymbol): any {
     // TODO : implement validation from & to
-    throw new Error("Not Implemented"); // TODO: create generic API ERROR class
+    if(!this.strategy){
+      throw new Error("Data not initialized, please use initiateData() method.");
+    }
+    this.strategy.getExchange(amount, from, to);
   }
 
   setSource() {
