@@ -55,6 +55,7 @@ class DolarSiStrategy implements CurrencyStrategy {
   calculateExchange(amount: number, from: string, to: string, ) :number{
     return amount * (parseInt(from) / parseInt(to) ); // TODO: use bigNumber instead
   }
+  // agregué el código asd
 
   getExchange( amount: number, from: CurrencySymbol, to: CurrencySymbol,): any {
     // TODO: validate this.currencyData
@@ -64,6 +65,7 @@ class DolarSiStrategy implements CurrencyStrategy {
       );
     }
 
+    // 
     for (const currency of this.currencyData) {
       let currencyData = {
         type: currency.label,
