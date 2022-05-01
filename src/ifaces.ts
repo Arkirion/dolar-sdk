@@ -11,7 +11,7 @@ export interface AskBid {
 }
 
 export interface CurrencyConverted {
-  values: AskBid[]; // maybe a BIGNUMBER?
+  values: AskBid[]; // TODO: maybe a BIGNUMBER?
   from: CurrencySymbol;
   to: CurrencySymbol;
   date: string;
