@@ -10,17 +10,22 @@ export interface AskBid {
   bid: string;
 }
 
-export interface CurrencyConverted {
-  values: AskBid[]; // TODO: maybe a BIGNUMBER?
+export interface AskBidExchange extends AskBid, exchangeDirection {}
+
+export interface exchangeDirection {
   from: CurrencySymbol;
   to: CurrencySymbol;
+}
+
+export interface CurrencyConverted extends exchangeDirection {
+  values: AskBid[]; // TODO: maybe a BIGNUMBER?
   date: string;
 }
 
 export interface SourceConfig {
   currency1: CurrencySymbol;
   currency2: CurrencySymbol;
-  url: string; // TODO: add pattern regex
+  url: string;
 }
 
-export type SourceConfigList<V = SourceConfig> = { [key:string] : V}
+export type SourceConfigList<V = SourceConfig> = { [key: string]: V };

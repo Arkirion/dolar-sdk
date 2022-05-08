@@ -1,3 +1,35 @@
+# What is dolar-sdk
+
+
+# how to add new Source
+To add a new source Strategy and factoryConfig must be configured.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---- OLD DOCS
+
 following 
 https://khalilstemmler.com/blogs/typescript/node-starter-project/
 

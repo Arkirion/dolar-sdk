@@ -1,8 +1,9 @@
 import Source from "../constants";
-import { AskBid, CurrencySymbol } from "../ifaces";
+import { AskBid, AskBidExchange, CurrencySymbol } from "../ifaces";
 import axios from "axios";
 import CurrencyStrategy from "./ifaces";
-import sourcesConfig from "../factoryConfig";
+import {sourcesConfig} from "../factoryConfig";
+import { validateStrategy } from "../validations";
 
 class DolarSiStrategy implements CurrencyStrategy {
   rawData: any;
@@ -42,39 +43,56 @@ class DolarSiStrategy implements CurrencyStrategy {
     return this.currencyData;
   }
 
-  calculateExchange(amount: number, from: string, to: string, ) :number{
-    return amount * (parseInt(from) / parseInt(to) ); // TODO: use bigNumber instead
+  calculateExchange(amount: number, from: string, to: string): number {
+    return amount * (parseInt(from) / parseInt(to)); // TODO: use bigNumber instead
   }
 
-  getExchange( amount: number, from: CurrencySymbol, to: CurrencySymbol,): any {
-    // TODO: validate this.currencyData
-    if (!this.currencyData) {
-      throw new Error(
-        "Data not initialized, please use initiateData() method."
-      );
-    }
-    let exchange : {}[] = [];
-
-    for (const currency of this.currencyData) {
-      let currencyData = {
-        type: currency.label,
+  /**
+   * 
+   * @param {number} amount 
+   * @param {CurrencySymbol} from 
+   * @param {CurrencySymbol} to 
+   * @param {any} currencyData 
+   * @returns {AskBidExchange}
+   */
+  private buildExchange(
+    amount: number,
+    from: CurrencySymbol,
+    to: CurrencySymbol,
+    currencyData: any,
+  ): AskBidExchange {
+      let exchangeDirection : Pick<AskBidExchange, "label" | "from" | "to"> = {
+        label: currencyData.label,
         from,
         to,
       };
-      let spread;
+      let spread: Pick<AskBidExchange, "ask" | "bid">;
+
       if (from === CurrencySymbol.USD) {
         spread = {
-          ask: this.calculateExchange(amount, currency.bid, '1'),
-          bid: this.calculateExchange(amount, currency.ask, '1'),
-        }
+          ask: this.calculateExchange(amount, currencyData.bid, "1").toString(),
+          bid: this.calculateExchange(amount, currencyData.ask, "1").toString(),
+        };
       } else {
         spread = {
-          ask: this.calculateExchange(amount, '1', currency.ask),
-          bid: this.calculateExchange(amount, '1', currency.bid),
-        }
+          ask: this.calculateExchange(amount, "1", currencyData.ask).toString(),
+          bid: this.calculateExchange(amount, "1", currencyData.bid).toString(),
+        };
       }
-      currencyData = {...currencyData, ...spread }
-      exchange.push(currencyData);
+    return { ...exchangeDirection, ...spread };
+  }
+
+  getExchange(
+    amount: number,
+    from: CurrencySymbol,
+    to: CurrencySymbol
+  ): AskBidExchange[] {
+    validateStrategy(this.currencyData)
+    
+    let exchange: AskBidExchange[] = [];
+    for (const currency of this.currencyData) {
+      const exchangeData: AskBidExchange = this.buildExchange(amount, from, to, currency)
+      exchange.push(exchangeData);
     }
     return exchange;
   }
