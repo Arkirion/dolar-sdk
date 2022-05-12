@@ -1,4 +1,5 @@
-import { CurrencySymbol } from "./ifaces";
+import BigNumber from "bignumber.js";
+import { AskBid, CurrencySymbol } from "./ifaces";
 import BaseCurrencyStrategy from "./Strategy/ifaces";
 
 /** TODO: Modify and Add Error class extension implementation */
@@ -16,14 +17,14 @@ export const validateParameter = (value: unknown, parameterName: string): void =
   }
 };
 
-export const validateAmount = (value: number): void => {
+export const validateAmount = (value: BigNumber): void => {
   validateParameter(value, "amount");
-  if (value < 0) {
+  if (value.isLessThan(0)) {
     throw new Error("Amount must be greater than zero");
   }
 };
 
-export const validateStrategy = (value: BaseCurrencyStrategy): void => {
+export const validateDataInitialized = (value: BaseCurrencyStrategy | AskBid[]): void => {
   if (!value) {
     throw new Error(`Data not initialized, please use initiateData() method before.`);
   }

@@ -2,18 +2,22 @@ import Source from "../constants";
 import { AskBid, AskBidExchange, CurrencySymbol } from "../ifaces";
 import axios from "axios";
 import CurrencyStrategy from "./ifaces";
-import {sourcesConfig} from "../factoryConfig";
-import { validateStrategy } from "../validations";
+import { sourcesConfig } from "../factoryConfig";
+import { validateDataInitialized } from "../validations";
+import BigNumber from "bignumber.js";
+import { formatValue } from "../utils";
+
 
 class DolarSiStrategy implements CurrencyStrategy {
   rawData: any;
-  currencyData: any;
+  currencyData: AskBid[];
   source: Source;
   URL: string;
 
   constructor(source: Source = Source.DOLAR_SI) {
     this.source = source;
     this.URL = sourcesConfig[Source.DOLAR_SI].url;
+    this.currencyData = []
   }
 
   async initiateData(): Promise<void> {
@@ -24,16 +28,17 @@ class DolarSiStrategy implements CurrencyStrategy {
   }
 
   private parseCurrencyData(): AskBid[] {
+ 
     return [
       {
         label: "oficial",
-        ask: this.rawData[0].casa.venta,
-        bid: this.rawData[0].casa.compra,
+        ask: formatValue(this.rawData[0].casa.venta).toFixed(),
+        bid: formatValue(this.rawData[0].casa.compra).toFixed(),
       },
       {
         label: "blue",
-        ask: this.rawData[1].casa.venta,
-        bid: this.rawData[1].casa.compra,
+        ask: formatValue(this.rawData[1].casa.venta).toFixed(),
+        bid: formatValue(this.rawData[1].casa.compra).toFixed(),
       },
     ];
   }
@@ -43,55 +48,71 @@ class DolarSiStrategy implements CurrencyStrategy {
     return this.currencyData;
   }
 
-  calculateExchange(amount: number, from: string, to: string): number {
-    return amount * (parseInt(from) / parseInt(to)); // TODO: use bigNumber instead
+  /**
+   * Calculate exchange formula, it should be always with 1 and the other value the current market value
+   * This method can calculate one way and the other
+   * @param {BigNumber} amount the input to calculate and multiply by the desired amount
+   * @param {BigNumber} from currency value
+   * @param {BigNumber} to  currency value
+   * @returns the total amount calculated
+   */
+  calculateExchange(amount: BigNumber, from: string, to: string): BigNumber {
+    return new BigNumber(from).dividedBy(new BigNumber(to)).multipliedBy(amount);
   }
 
   /**
-   * 
-   * @param {number} amount 
-   * @param {CurrencySymbol} from 
-   * @param {CurrencySymbol} to 
-   * @param {any} currencyData 
+   *
+   * @param {BigNumber} amount
+   * @param {CurrencySymbol} from
+   * @param {CurrencySymbol} to
+   * @param {any} currencyData
    * @returns {AskBidExchange}
    */
   private buildExchange(
-    amount: number,
+    amount: BigNumber,
     from: CurrencySymbol,
     to: CurrencySymbol,
-    currencyData: any,
+    currencyData: AskBid
   ): AskBidExchange {
-      let exchangeDirection : Pick<AskBidExchange, "label" | "from" | "to"> = {
-        label: currencyData.label,
-        from,
-        to,
-      };
-      let spread: Pick<AskBidExchange, "ask" | "bid">;
+    // build labels
+    let exchangeDirection: Pick<AskBidExchange, "label" | "from" | "to"> = {
+      label: currencyData.label,
+      from,
+      to,
+    };
+    let spread: Pick<AskBidExchange, "ask" | "bid">;
 
-      if (from === CurrencySymbol.USD) {
-        spread = {
-          ask: this.calculateExchange(amount, currencyData.bid, "1").toString(),
-          bid: this.calculateExchange(amount, currencyData.ask, "1").toString(),
-        };
-      } else {
-        spread = {
-          ask: this.calculateExchange(amount, "1", currencyData.ask).toString(),
-          bid: this.calculateExchange(amount, "1", currencyData.bid).toString(),
-        };
-      }
+    // build calculation
+    const HOST_CURRENCY = '1';
+    if (from === CurrencySymbol.USD) {
+      spread = {
+        ask: this.calculateExchange(amount, currencyData.ask, HOST_CURRENCY).toFixed(),
+        bid: this.calculateExchange(amount, currencyData.bid, HOST_CURRENCY).toFixed(),
+      };
+    } else {
+      spread = {
+        ask: this.calculateExchange(amount, HOST_CURRENCY, currencyData.ask).toFixed(),
+        bid: this.calculateExchange(amount, HOST_CURRENCY,currencyData.bid).toFixed(),
+      };
+    }
     return { ...exchangeDirection, ...spread };
   }
 
   getExchange(
-    amount: number,
+    amount: BigNumber,
     from: CurrencySymbol,
     to: CurrencySymbol
   ): AskBidExchange[] {
-    validateStrategy(this.currencyData)
-    
+    validateDataInitialized(this.currencyData);
+
     let exchange: AskBidExchange[] = [];
     for (const currency of this.currencyData) {
-      const exchangeData: AskBidExchange = this.buildExchange(amount, from, to, currency)
+      const exchangeData: AskBidExchange = this.buildExchange(
+        amount,
+        from,
+        to,
+        currency
+      );
       exchange.push(exchangeData);
     }
     return exchange;
