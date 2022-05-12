@@ -2,7 +2,10 @@
 
 
 # how to add new Source
-To add a new source Strategy and factoryConfig must be configured.
+To add a new source Strategy and factoryConfig must be configured and add the strategy related source at src/Strategy
+
+# examples
+lets see examples at /examples folders, install globally ts-node and do `ts-node <filename.ts>` is recomended.
 
 
 

@@ -1,6 +1,6 @@
 import Source from "./constants";
 import {sourcesConfig, currencyStrategyFactory} from "./factoryConfig";
-import { AskBidExchange, CurrencySymbol } from "./ifaces";
+import { AskBid, AskBidExchange, CurrencySymbol } from "./ifaces";
 import BaseCurrencyStrategy from "./Strategy/ifaces";
 import { validateAmount, validateCurrencySymbol, validateDataInitialized } from "./validations";
 import BigNumber from 'bignumber.js';
@@ -28,7 +28,7 @@ export default class Currencies {
     await this.strategy?.initiateData();
   }
 
-  getCurrency(): any {
+  getCurrency(): AskBid[] {
     validateDataInitialized(this.strategy)
     return this.strategy.getCurrency();
   }
@@ -50,11 +50,7 @@ export default class Currencies {
     return this.strategy.getExchange(BNamount, from, to);
   }
 
-  setSource() {
-    throw new Error("Not Implemented"); // TODO: create generic API ERROR class
-  }
-
-  setDate() {
+  setDate(): void {
     throw new Error("Not Implemented"); // TODO: create generic API ERROR class
   }
 }

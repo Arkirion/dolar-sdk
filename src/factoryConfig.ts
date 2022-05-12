@@ -1,6 +1,7 @@
 import Source from "./constants";
 import { CurrencySymbol, SourceConfigList } from "./ifaces";
 import DolarSiStrategy from "./Strategy/DolarSiStrategy";
+import CurrencyStrategy from "./Strategy/ifaces";
 
 /**
  * Add config here and also the strategy implenetation at src/Strategy folder
@@ -14,7 +15,7 @@ export const sourcesConfig : SourceConfigList = {
   },
 };
 
-export const currencyStrategyFactory = (source: Source): any => {
+export const currencyStrategyFactory = (source: Source): CurrencyStrategy => {
   switch (source) {
     case Source.DOLAR_SI:
       return new DolarSiStrategy();
