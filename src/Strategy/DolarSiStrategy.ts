@@ -1,12 +1,11 @@
-import Source from "../constants";
-import { AskBid, AskBidExchange, CurrencySymbol } from "../ifaces";
-import axios from "axios";
-import CurrencyStrategy from "./ifaces";
-import { sourcesConfig } from "../factoryConfig";
-import { validateDataInitialized } from "../validations";
-import BigNumber from "bignumber.js";
-import { formatValue } from "../utils";
-
+import BigNumber from 'bignumber.js';
+import axios from 'axios';
+import Source from '../constants';
+import { AskBid, AskBidExchange, CurrencySymbol } from '../ifaces';
+import CurrencyStrategy from './ifaces';
+import { sourcesConfig } from '../factoryConfig';
+import { validateDataInitialized } from '../validations';
+import { formatValue } from '../utils';
 
 class DolarSiStrategy implements CurrencyStrategy {
   rawData: any;
@@ -17,7 +16,7 @@ class DolarSiStrategy implements CurrencyStrategy {
   constructor(source: Source = Source.DOLAR_SI) {
     this.source = source;
     this.URL = sourcesConfig[Source.DOLAR_SI].url;
-    this.currencyData = []
+    this.currencyData = [];
   }
 
   async initiateData(): Promise<void> {
@@ -28,15 +27,14 @@ class DolarSiStrategy implements CurrencyStrategy {
   }
 
   private parseCurrencyData(): AskBid[] {
- 
     return [
       {
-        label: "oficial",
+        label: 'oficial',
         ask: formatValue(this.rawData[0].casa.venta).toFixed(),
         bid: formatValue(this.rawData[0].casa.compra).toFixed(),
       },
       {
-        label: "blue",
+        label: 'blue',
         ask: formatValue(this.rawData[1].casa.venta).toFixed(),
         bid: formatValue(this.rawData[1].casa.compra).toFixed(),
       },
@@ -75,12 +73,12 @@ class DolarSiStrategy implements CurrencyStrategy {
     currencyData: AskBid
   ): AskBidExchange {
     // build labels
-    let exchangeDirection: Pick<AskBidExchange, "label" | "from" | "to"> = {
+    const exchangeDirection: Pick<AskBidExchange, 'label' | 'from' | 'to'> = {
       label: currencyData.label,
       from,
       to,
     };
-    let spread: Pick<AskBidExchange, "ask" | "bid">;
+    let spread: Pick<AskBidExchange, 'ask' | 'bid'>;
 
     // build calculation
     const HOST_CURRENCY = '1';
@@ -92,27 +90,18 @@ class DolarSiStrategy implements CurrencyStrategy {
     } else {
       spread = {
         ask: this.calculateExchange(amount, HOST_CURRENCY, currencyData.ask).toFixed(),
-        bid: this.calculateExchange(amount, HOST_CURRENCY,currencyData.bid).toFixed(),
+        bid: this.calculateExchange(amount, HOST_CURRENCY, currencyData.bid).toFixed(),
       };
     }
     return { ...exchangeDirection, ...spread };
   }
 
-  getExchange(
-    amount: BigNumber,
-    from: CurrencySymbol,
-    to: CurrencySymbol
-  ): AskBidExchange[] {
+  getExchange(amount: BigNumber, from: CurrencySymbol, to: CurrencySymbol): AskBidExchange[] {
     validateDataInitialized(this.currencyData);
 
-    let exchange: AskBidExchange[] = [];
+    const exchange: AskBidExchange[] = [];
     for (const currency of this.currencyData) {
-      const exchangeData: AskBidExchange = this.buildExchange(
-        amount,
-        from,
-        to,
-        currency
-      );
+      const exchangeData: AskBidExchange = this.buildExchange(amount, from, to, currency);
       exchange.push(exchangeData);
     }
     return exchange;

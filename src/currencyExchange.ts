@@ -1,10 +1,9 @@
-import Source from "./constants";
-import {sourcesConfig, currencyStrategyFactory} from "./factoryConfig";
-import { AskBid, AskBidExchange, CurrencySymbol } from "./ifaces";
-import BaseCurrencyStrategy from "./Strategy/ifaces";
-import { validateAmount, validateCurrencySymbol, validateDataInitialized } from "./validations";
+import Source from './constants';
+import { sourcesConfig, currencyStrategyFactory } from './factoryConfig';
+import { AskBid, AskBidExchange, CurrencySymbol } from './ifaces';
+import BaseCurrencyStrategy from './Strategy/ifaces';
+import { validateAmount, validateCurrencySymbol, validateDataInitialized } from './validations';
 import BigNumber from 'bignumber.js';
-
 
 export default class Currencies {
   private strategy!: BaseCurrencyStrategy;
@@ -29,7 +28,7 @@ export default class Currencies {
   }
 
   getCurrency(): AskBid[] {
-    validateDataInitialized(this.strategy)
+    validateDataInitialized(this.strategy);
     return this.strategy.getCurrency();
   }
 
@@ -37,21 +36,16 @@ export default class Currencies {
     this.strategy = strategy;
   }
 
-  getExchange(
-    amount: number,
-    from: CurrencySymbol,
-    to: CurrencySymbol
-  ): AskBidExchange[] {
+  getExchange(amount: number, from: CurrencySymbol, to: CurrencySymbol): AskBidExchange[] {
     const BNamount = new BigNumber(amount);
     validateAmount(BNamount);
-    validateDataInitialized(this.strategy)
-    validateCurrencySymbol(from, "from");
-    validateCurrencySymbol(to, "to");
+    validateDataInitialized(this.strategy);
+    validateCurrencySymbol(from, 'from');
+    validateCurrencySymbol(to, 'to');
     return this.strategy.getExchange(BNamount, from, to);
   }
 
   setDate(): void {
-    throw new Error("Not Implemented"); // TODO: create generic API ERROR class
+    throw new Error('Not Implemented'); // TODO: create generic API ERROR class
   }
 }
-

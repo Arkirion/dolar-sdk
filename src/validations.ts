@@ -1,13 +1,16 @@
-import BigNumber from "bignumber.js";
-import { AskBid, CurrencySymbol } from "./ifaces";
-import BaseCurrencyStrategy from "./Strategy/ifaces";
+import BigNumber from 'bignumber.js';
+import { AskBid, CurrencySymbol } from './ifaces';
+import BaseCurrencyStrategy from './Strategy/ifaces';
 
 /** TODO: Modify and Add Error class extension implementation */
 
-export const validateCurrencySymbol = (value: CurrencySymbol, parameterName: string = 'currency symbol'): void => {
+export const validateCurrencySymbol = (
+  value: CurrencySymbol,
+  parameterName = 'currency symbol'
+): void => {
   validateParameter(value, parameterName);
   if (!Object.values(CurrencySymbol).includes(value as CurrencySymbol)) {
-    throw new Error("Currency not supported");
+    throw new Error('Currency not supported');
   }
 };
 
@@ -18,9 +21,9 @@ export const validateParameter = (value: unknown, parameterName: string): void =
 };
 
 export const validateAmount = (value: BigNumber): void => {
-  validateParameter(value, "amount");
+  validateParameter(value, 'amount');
   if (value.isLessThan(0)) {
-    throw new Error("Amount must be greater than zero");
+    throw new Error('Amount must be greater than zero');
   }
 };
 

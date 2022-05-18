@@ -1,6 +1,6 @@
 export enum CurrencySymbol {
-  USD = "USD",
-  ARG = "ARG",
+  USD = 'USD',
+  ARG = 'ARG',
 }
 
 export interface AskBid {

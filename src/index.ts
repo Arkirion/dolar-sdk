@@ -1,4 +1,4 @@
-import Currencies from "./currencyExchange";
+import Currencies from './currencyExchange';
 export * from './constants';
 export * from './ifaces';
 
