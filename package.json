@@ -3,6 +3,7 @@
   "version": "1.0.1",
   "description": "Currency SDK. currently the objetive is implement dolar exchanges",
   "main": "src/index.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
     "start:dev": "nodemon",
     "build": "rimraf ./build && tsc",
