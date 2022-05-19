@@ -40,8 +40,8 @@ class DolarSiStrategy implements CurrencyStrategy {
     ];
   }
 
+  /** @inheritdoc */
   getCurrency(): AskBid[] {
-    // TODO : validate
     return this.currencyData;
   }
 
@@ -58,7 +58,7 @@ class DolarSiStrategy implements CurrencyStrategy {
   }
 
   /**
-   *
+   * build exchange.
    * @param {BigNumber} amount
    * @param {CurrencySymbol} from
    * @param {CurrencySymbol} to

@@ -18,7 +18,7 @@ export interface exchangeDirection {
 }
 
 export interface CurrencyConverted extends exchangeDirection {
-  values: AskBid[]; // TODO: maybe a BIGNUMBER?
+  values: AskBid[];
   date: string;
 }
 

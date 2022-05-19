@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { AskBid, CurrencySymbol } from './ifaces';
-import { CurrencyStrategy } from './Strategy/ifaces';
+import { CurrencyStrategy, Source } from './Strategy/ifaces';
 
 /** TODO: Modify and Add Error class extension implementation */
 
@@ -11,6 +11,13 @@ export const validateCurrencySymbol = (
   validateParameter(value, parameterName);
   if (!Object.values(CurrencySymbol).includes(value as CurrencySymbol)) {
     throw new Error('Currency not supported');
+  }
+};
+
+export const validateSource = (value: Source, parameterName = 'source'): void => {
+  validateParameter(value, parameterName);
+  if (!Object.values(Source).includes(value as Source)) {
+    throw new Error('Source not supported');
   }
 };
 

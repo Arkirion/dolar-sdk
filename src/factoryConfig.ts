@@ -5,7 +5,6 @@ import { CurrencyStrategy, Source } from './Strategy/ifaces';
 /**
  * Add config here and also the strategy implenetation at src/Strategy folder
  */
-
 export const sourcesConfig: SourceConfigList = {
   [Source.DOLAR_SI]: {
     currency1: CurrencySymbol.USD,
@@ -14,6 +13,11 @@ export const sourcesConfig: SourceConfigList = {
   },
 };
 
+/**
+ * Determinate which strategy to use using source as reference.
+ * @param {Source} source determinate which API will fetch data.
+ * @returns {CurrencyStrategy}
+ */
 export const currencyStrategyFactory = (source: Source): CurrencyStrategy => {
   switch (source) {
     case Source.DOLAR_SI:
