@@ -1,7 +1,6 @@
-import Source from './constants';
 import { CurrencySymbol, SourceConfigList } from './ifaces';
 import DolarSiStrategy from './Strategy/DolarSiStrategy';
-import CurrencyStrategy from './Strategy/ifaces';
+import { CurrencyStrategy, Source } from './Strategy/ifaces';
 
 /**
  * Add config here and also the strategy implenetation at src/Strategy folder

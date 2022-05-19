@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { AskBid, CurrencySymbol } from './ifaces';
-import BaseCurrencyStrategy from './Strategy/ifaces';
+import { CurrencyStrategy } from './Strategy/ifaces';
 
 /** TODO: Modify and Add Error class extension implementation */
 
@@ -27,7 +27,7 @@ export const validateAmount = (value: BigNumber): void => {
   }
 };
 
-export const validateDataInitialized = (value: BaseCurrencyStrategy | AskBid[]): void => {
+export const validateDataInitialized = (value: CurrencyStrategy | AskBid[]): void => {
   if (!value) {
     throw new Error(`Data not initialized, please use initiateData() method before.`);
   }

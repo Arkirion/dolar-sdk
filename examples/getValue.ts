@@ -1,5 +1,5 @@
 import { CurrencySymbol } from '../src';
-import Source from '../src/constants';
+import { Source } from '../src/Strategy/ifaces';
 import Currencies from '../src/currencyExchange';
 
 const main = async (): Promise<void> => {

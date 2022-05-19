@@ -1,12 +1,11 @@
-import Source from './constants';
 import { sourcesConfig, currencyStrategyFactory } from './factoryConfig';
 import { AskBid, AskBidExchange, CurrencySymbol } from './ifaces';
-import BaseCurrencyStrategy from './Strategy/ifaces';
+import { CurrencyStrategy, Source } from './Strategy/ifaces';
 import { validateAmount, validateCurrencySymbol, validateDataInitialized } from './validations';
 import BigNumber from 'bignumber.js';
 
 export default class Currencies {
-  private strategy!: BaseCurrencyStrategy;
+  private strategy!: CurrencyStrategy;
   currency1: CurrencySymbol;
   currency2: CurrencySymbol;
   data: any;
@@ -32,7 +31,7 @@ export default class Currencies {
     return this.strategy.getCurrency();
   }
 
-  private setStrategy(strategy: BaseCurrencyStrategy): void {
+  private setStrategy(strategy: CurrencyStrategy): void {
     this.strategy = strategy;
   }
 

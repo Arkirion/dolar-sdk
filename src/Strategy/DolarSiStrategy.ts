@@ -1,11 +1,10 @@
 import BigNumber from 'bignumber.js';
 import axios from 'axios';
-import Source from '../constants';
 import { AskBid, AskBidExchange, CurrencySymbol } from '../ifaces';
-import CurrencyStrategy from './ifaces';
 import { sourcesConfig } from '../factoryConfig';
 import { validateDataInitialized } from '../validations';
 import { formatValue } from '../utils';
+import { CurrencyStrategy, Source } from './ifaces';
 
 class DolarSiStrategy implements CurrencyStrategy {
   rawData: any;

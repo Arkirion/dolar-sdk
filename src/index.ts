@@ -1,5 +1,5 @@
 import Currencies from './currencyExchange';
-export * from './constants';
 export * from './ifaces';
+export * from './Strategy/ifaces';
 
 export default { Currencies };

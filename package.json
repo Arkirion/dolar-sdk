@@ -1,14 +1,12 @@
 {
   "name": "dolar-exchange-sdk",
-  "version": "1.0.1",
+  "version": "1.0.7",
   "description": "Currency SDK. currently the objetive is implement dolar exchanges",
-  "main": "src/index.ts",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
   "scripts": {
-    "start:dev": "nodemon",
-    "build": "rimraf ./build && tsc",
-    "start": "npm run build && node build/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf ./dist && tsc",
     "lint": "eslint . --ext .ts"
   },
   "author": "",
@@ -21,7 +19,6 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "nodemon": "^2.0.15",
     "prettier": "^2.6.2",
     "rimraf": "^3.0.2",
     "ts-node": "^10.7.0",
