@@ -4,7 +4,7 @@ import { CurrencyStrategy, Source } from './Strategy/ifaces';
 import { validateAmount, validateCurrencySymbol, validateDataInitialized } from './validations';
 import BigNumber from 'bignumber.js';
 
-export default class Currencies {
+export class Currencies {
   private strategy!: CurrencyStrategy;
   currency1: CurrencySymbol;
   currency2: CurrencySymbol;

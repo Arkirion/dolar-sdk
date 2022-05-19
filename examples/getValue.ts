@@ -1,6 +1,6 @@
 import { CurrencySymbol } from '../src';
 import { Source } from '../src/Strategy/ifaces';
-import Currencies from '../src/currencyExchange';
+import { Currencies } from '../src/currencyExchange';
 
 const main = async (): Promise<void> => {
   const currency = new Currencies(Source.DOLAR_SI);

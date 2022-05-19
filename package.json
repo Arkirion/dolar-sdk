@@ -1,13 +1,14 @@
 {
   "name": "dolar-exchange-sdk",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "description": "Currency SDK. currently the objetive is implement dolar exchanges",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": ["dist"],
   "scripts": {
     "build": "rimraf ./dist && tsc",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts",
+    "publish": "build && npm publish"
   },
   "author": "",
   "license": "ISC",
