@@ -1,6 +1,10 @@
 import { CurrencySymbol, SourceConfigList } from './ifaces';
 import DolarSiStrategy from './Strategy/DolarSiStrategy';
-import { CurrencyStrategy, Source } from './Strategy/ifaces';
+import { CurrencyStrategy } from './Strategy/CurrencyStrategy';
+
+export enum Source {
+  DOLAR_SI = 'DOLAR_SI',
+}
 
 /**
  * Add config here and also the strategy implenetation at src/Strategy folder

@@ -1,6 +1,6 @@
-import { sourcesConfig, currencyStrategyFactory } from './factoryConfig';
+import { currencyStrategyFactory, Source } from './factoryConfig';
 import { AskBid, AskBidExchange, CurrencySymbol } from './ifaces';
-import { CurrencyStrategy, Source } from './Strategy/ifaces';
+import { CurrencyStrategy } from './Strategy/CurrencyStrategy';
 import {
   validateAmount,
   validateCurrencySymbol,
@@ -14,14 +14,10 @@ import BigNumber from 'bignumber.js';
  */
 export class Currencies {
   private strategy!: CurrencyStrategy;
-  currency1: CurrencySymbol;
-  currency2: CurrencySymbol;
 
   constructor(source: Source) {
     validateSource(source);
     const strategy = currencyStrategyFactory(source);
-    this.currency1 = sourcesConfig[source].currency1;
-    this.currency2 = sourcesConfig[source].currency2;
     this.setStrategy(strategy);
   }
 
@@ -30,7 +26,7 @@ export class Currencies {
   }
 
   /**
-   * Used to initialize and update data
+   * Initialize and fetch data, use it everytime you want to get updated currencies.
    */
   async initiateData(): Promise<void> {
     await this.strategy?.initiateData();

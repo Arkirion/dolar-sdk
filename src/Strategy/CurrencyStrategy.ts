@@ -7,7 +7,3 @@ export interface CurrencyStrategy {
   getCurrency(): AskBid[];
   getExchange(amount: BigNumber, from: CurrencySymbol, to: CurrencySymbol): AskBidExchange[];
 }
-
-export enum Source {
-  DOLAR_SI = 'DOLAR_SI',
-}

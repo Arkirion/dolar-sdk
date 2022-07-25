@@ -1,5 +1,5 @@
 export * from './ifaces';
-export * from './Strategy/ifaces';
+export * from './Strategy/CurrencyStrategy';
 
-import { Currencies } from './currencyExchange';
+import { Currencies } from './Currencies';
 export { Currencies };

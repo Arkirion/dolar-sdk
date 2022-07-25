@@ -17,11 +17,6 @@ export interface exchangeDirection {
   to: CurrencySymbol;
 }
 
-export interface CurrencyConverted extends exchangeDirection {
-  values: AskBid[];
-  date: string;
-}
-
 export interface SourceConfig {
   currency1: CurrencySymbol;
   currency2: CurrencySymbol;

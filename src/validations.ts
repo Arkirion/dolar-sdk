@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js';
+import { Source } from './factoryConfig';
 import { AskBid, CurrencySymbol } from './ifaces';
-import { CurrencyStrategy, Source } from './Strategy/ifaces';
+import { CurrencyStrategy } from './Strategy/CurrencyStrategy';
 
 /** TODO: Modify and Add Error class extension implementation */
 
