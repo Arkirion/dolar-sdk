@@ -18,6 +18,7 @@ export interface exchangeDirection {
 }
 
 export interface SourceConfig {
+  label: string;
   currency1: CurrencySymbol;
   currency2: CurrencySymbol;
   url: string;

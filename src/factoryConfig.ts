@@ -1,9 +1,11 @@
 import { CurrencySymbol, SourceConfigList } from './ifaces';
 import DolarSiStrategy from './Strategy/DolarSiStrategy';
 import { CurrencyStrategy } from './Strategy/CurrencyStrategy';
+import DolarHoyStrategy from './Strategy/DolarHoyStrategy';
 
 export enum Source {
   DOLAR_SI = 'DOLAR_SI',
+  DOLAR_HOY = 'DOLAR_HOY',
 }
 
 /**
@@ -11,9 +13,16 @@ export enum Source {
  */
 export const sourcesConfig: SourceConfigList = {
   [Source.DOLAR_SI]: {
+    label: 'Dolar Si',
     currency1: CurrencySymbol.USD,
     currency2: CurrencySymbol.ARG,
     url: 'https://www.dolarsi.com/api/api.php?type=valoresprincipales',
+  },
+  [Source.DOLAR_HOY]: {
+    label: 'Dolar Hoy',
+    currency1: CurrencySymbol.USD,
+    currency2: CurrencySymbol.ARG,
+    url: 'https://dolarhoy.com',
   },
 };
 
@@ -26,6 +35,8 @@ export const currencyStrategyFactory = (source: Source): CurrencyStrategy => {
   switch (source) {
     case Source.DOLAR_SI:
       return new DolarSiStrategy();
+    case Source.DOLAR_HOY:
+      return new DolarHoyStrategy();
     default:
       throw new Error('Source not valid');
   }
