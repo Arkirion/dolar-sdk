@@ -23,12 +23,12 @@ export function calculateExchange(amount: BigNumber, from: string, to: string): 
 }
 
 /**
- * build exchange.
- * @param {BigNumber} amount
+ * build exchange. for now its only dolar based
+ * @param {BigNumber} amount how much to exchange
  * @param {CurrencySymbol} from
  * @param {CurrencySymbol} to
- * @param {any} currencyData
- * @returns {AskBidExchange}
+ * @param {AskBid} currencyData data already formated to be used and calculate exchange
+ * @returns {AskBidExchange} exchange data.
  */
 export function buildExchange(
   amount: BigNumber,

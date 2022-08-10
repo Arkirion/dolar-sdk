@@ -45,10 +45,8 @@ Is a wrapper of APIs to get currency and the exchange between two of them.
 
 
 # How to add new Source
-To add a new source Strategy and factoryConfig must be configured and add the strategy related source at src/Strategy
+1. Add configuration at factoryConfig.ts
+2. Add Strategy on /Strategy Folder, adding parseCurrencyData() is needed, use other strategies as reference.
 
 # examples
-See examples at [examples](/examples) folders, install globally ts-node and do `ts-node <filename.ts>` is recomended.
-
-
-<!--- https://app.diagrams.net/#G1rGri5xXJTuClG9OsBRm1JSuMd5XFPt37 -->
+See examples at [examples](/examples) folders, installing globally ts-node and do `ts-node <filename.ts>` is recomended.

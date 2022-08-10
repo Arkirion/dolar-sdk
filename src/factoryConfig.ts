@@ -1,6 +1,6 @@
 import { CurrencySymbol, SourceConfigList } from './ifaces';
+import { CurrencyStrategy } from './Strategy/base/CurrencyStrategy';
 import DolarSiStrategy from './Strategy/DolarSiStrategy';
-import { CurrencyStrategy } from './Strategy/CurrencyStrategy';
 import DolarHoyStrategy from './Strategy/DolarHoyStrategy';
 
 export enum Source {

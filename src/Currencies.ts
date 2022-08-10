@@ -1,13 +1,13 @@
-import { currencyStrategyFactory, Source } from './factoryConfig';
+import BigNumber from 'bignumber.js';
 import { AskBid, AskBidExchange, CurrencySymbol } from './ifaces';
-import { CurrencyStrategy } from './Strategy/CurrencyStrategy';
 import {
   validateAmount,
   validateCurrencySymbol,
   validateDataInitialized,
   validateSource,
 } from './validations';
-import BigNumber from 'bignumber.js';
+import { currencyStrategyFactory, Source } from './factoryConfig';
+import { CurrencyStrategy } from './Strategy/base/CurrencyStrategy';
 
 /**
  * Main class to run currencie related methods.
