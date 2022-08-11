@@ -1,62 +1,101 @@
+import axios from 'axios';
 import BigNumber from 'bignumber.js';
-import { AskBid, AskBidExchange, CurrencySymbol } from './ifaces';
+import { currencyStrategyFactory, Source, sourcesConfig } from './factoryConfig'; // aca
+import { AskBid, AskBidExchange, CurrencySymbol, CurrencyBase } from './ifaces';
+import { buildExchange } from './utils/currencyUtils';
 import {
   validateAmount,
   validateCurrencySymbol,
   validateDataInitialized,
   validateSource,
 } from './validations';
-import { currencyStrategyFactory, Source } from './factoryConfig';
 import { CurrencyStrategy } from './Strategy/base/CurrencyStrategy';
 
-/**
- * Main class to run currencie related methods.
- */
-export class Currencies {
+export class Currencies implements CurrencyBase {
   private strategy!: CurrencyStrategy;
+  rawData: any;
+  currencyData: AskBid[];
+  source: Source;
+  URL: string;
+  label: string;
 
   constructor(source: Source) {
     validateSource(source);
+    // this.source = source;
+    // this.URL = sourcesConfig[source].url;
+    // this.label = sourcesConfig[source].label;
+
+    // this.currencyData = [];
+    this.setSource(source);
+    this.buildData();
+  }
+
+  /**
+   * This is private because business logic could be confusing if you
+   * change source but data still old, however strategy pattern alow runtime changes
+   * You must use initiateData instead if you want to change source.
+   */
+  private setSource(source: Source): void {
+    this.source = source;
     const strategy = currencyStrategyFactory(source);
     this.setStrategy(strategy);
+  }
+
+  private buildData(): void {
+    this.URL = sourcesConfig[this.source].url;
+    this.label = sourcesConfig[this.source].label;
+    this.currencyData = [];
   }
 
   private setStrategy(strategy: CurrencyStrategy): void {
     this.strategy = strategy;
   }
 
-  /**
-   * Initialize and fetch data, use it everytime you want to get updated currencies.
-   */
-  async initiateData(): Promise<void> {
-    await this.strategy?.initiateData();
+  // #region inherit from CurrencyStrategy
+
+  /** @inheritdoc */
+  async initiateData(source?: Source): Promise<void> {
+    if (source) {
+      this.setSource(source);
+      this.buildData();
+    }
+
+    try {
+      const { data } = await axios.get(this.URL);
+      this.rawData = data;
+      this.currencyData = this.parseCurrencyData(this.rawData);
+    } catch (error) {
+      throw new Error(`'${this.label}' data not available.`);
+    }
   }
 
-  /**
-   * get currency data info already parsed
-   * @returns {AskBid[]}
-   */
+  /** @inheritdoc */
   getCurrency(): AskBid[] {
-    validateDataInitialized(this.strategy);
-    return this.strategy.getCurrency();
+    validateDataInitialized(this.currencyData);
+    return this.currencyData;
   }
 
-  /**
-   * Return exchange calculation from one currency to another.
-   * @param {string} amount desired amount to calculate exchange
-   * @param {CurrencySymbol} from from which currency exchange is being calculated e.g USD,ARG,etc
-   * @param {CurrencySymbol} to to which currency exchange is being calculated e.g USD,ARG,etc
-   * @returns {AskBidExchange[]}
-   */
+  /** @inheritdoc */
   getExchange(amount: string, from: CurrencySymbol, to: CurrencySymbol): AskBidExchange[] {
     if (from === to) {
       throw new Error("'from' parameter cant be the same that 'to' parameter");
     }
     const BNamount = new BigNumber(amount);
     validateAmount(BNamount);
-    validateDataInitialized(this.strategy);
     validateCurrencySymbol(from, 'from');
     validateCurrencySymbol(to, 'to');
-    return this.strategy.getExchange(BNamount, from, to);
+    validateDataInitialized(this.currencyData);
+
+    const exchange: AskBidExchange[] = [];
+    for (const currency of this.currencyData) {
+      const exchangeData: AskBidExchange = buildExchange(BNamount, from, to, currency);
+      exchange.push(exchangeData);
+    }
+    return exchange;
+  }
+
+  /** @inheritdoc */
+  private parseCurrencyData(rawData: any): AskBid[] {
+    return this.strategy?.parseCurrencyData(rawData);
   }
 }

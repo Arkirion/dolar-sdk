@@ -1,19 +1,12 @@
 import { AskBid } from '../ifaces';
-import { Source } from '../factoryConfig';
-import { formatValue } from '../Utils/currencyUtils';
-import { CurrencyStrategyBase } from './base/CurrencyStrategyBase';
-import HTMLParser from '../Utils/scrapingUtils';
+import { formatValue } from '../utils/currencyUtils';
+import { CurrencyStrategy } from './base/CurrencyStrategy';
+import HTMLParser from '../utils/scrapingUtils';
 
-class DolarHoyStrategy extends CurrencyStrategyBase {
-  constructor() {
-    super(Source.DOLAR_HOY);
-  }
-
-  // internal parser to return formated ask and bid
-  // this can change because endpoint response structure.
-  /** @overrided */
-  protected parseCurrencyData(): AskBid[] {
-    const document = new HTMLParser(this.rawData);
+class DolarHoyStrategy implements CurrencyStrategy {
+  /** @inheritdoc */
+  parseCurrencyData(rawData: any): AskBid[] {
+    const document = new HTMLParser(rawData);
 
     const selectors = {
       oficial_bid:

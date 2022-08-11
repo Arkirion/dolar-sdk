@@ -1,9 +1,11 @@
-import BigNumber from 'bignumber.js';
-import { AskBid, AskBidExchange, CurrencySymbol } from '../../ifaces';
+import { AskBid } from '../../ifaces';
 
 /** Base to follow for each repository */
 export interface CurrencyStrategy {
-  initiateData(): Promise<void>;
-  getCurrency(): AskBid[];
-  getExchange(amount: BigNumber, from: CurrencySymbol, to: CurrencySymbol): AskBidExchange[];
+  /**
+   * parse unknown data to the needed by the sdk
+   * @param rawData raw data to parse into data structure needed to the sdk works.
+   * @returns {AskBid[]}
+   */
+  parseCurrencyData(rawData: any): AskBid[];
 }
