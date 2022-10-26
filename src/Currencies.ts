@@ -21,19 +21,14 @@ export class Currencies implements CurrencyBase {
 
   constructor(source: Source) {
     validateSource(source);
-    // this.source = source;
-    // this.URL = sourcesConfig[source].url;
-    // this.label = sourcesConfig[source].label;
-
-    // this.currencyData = [];
     this.setSource(source);
     this.buildData();
   }
 
   /**
-   * This is private because business logic could be confusing if you
-   * change source but data still old, however strategy pattern alow runtime changes
-   * You must use initiateData instead if you want to change source.
+   * This is private because use cases could be confuse the user if you
+   * change source but data still old, however strategy pattern allow runtime changes
+   * You must use initiateData instead in order to change source and update data.
    */
   private setSource(source: Source): void {
     this.source = source;
@@ -55,7 +50,8 @@ export class Currencies implements CurrencyBase {
 
   /** @inheritdoc */
   async initiateData(source?: Source): Promise<void> {
-    if (source) {
+    if (source && source !== this.source) {
+      validateSource(source);
       this.setSource(source);
       this.buildData();
     }

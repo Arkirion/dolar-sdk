@@ -4,6 +4,7 @@ Is a wrapper of APIs to get currency and the exchange between two of them.
 # How to use
 1. Instance source API to determinate where data come from.
    ```typescript
+    import { Currencies, Source } from 'dolar-exchange-sdk';
     const currency = new Currencies(Source.DOLAR_SI);
    ```
    Note : Source enum has available sources, current list is:
