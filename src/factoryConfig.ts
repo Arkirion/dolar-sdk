@@ -9,7 +9,7 @@ export enum Source {
 }
 
 /**
- * Add config here and also the strategy implenetation at src/Strategy folder
+ * Add config here and also the strategy implementation at src/Strategy folder
  */
 export const sourcesConfig: SourceConfigList = {
   [Source.DOLAR_SI]: {

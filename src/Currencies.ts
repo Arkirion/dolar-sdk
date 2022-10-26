@@ -1,7 +1,7 @@
 import axios from 'axios';
 import BigNumber from 'bignumber.js';
 import { currencyStrategyFactory, Source, sourcesConfig } from './factoryConfig'; // aca
-import { AskBid, AskBidExchange, CurrencySymbol, CurrencyBase } from './ifaces';
+import { AskBid, AskBidExchange, CurrencyBase, exchangeInputs } from './ifaces';
 import { buildExchange } from './utils/currencyUtils';
 import {
   validateAmount,
@@ -72,7 +72,7 @@ export class Currencies implements CurrencyBase {
   }
 
   /** @inheritdoc */
-  getExchange(amount: string, from: CurrencySymbol, to: CurrencySymbol): AskBidExchange[] {
+  getExchange({ amount, from, to }: exchangeInputs): AskBidExchange[] {
     if (from === to) {
       throw new Error("'from' parameter cant be the same that 'to' parameter");
     }

@@ -19,6 +19,11 @@ export interface exchangeDirection {
   to: CurrencySymbol;
 }
 
+// Iface on getExchange() in order to match args e.g { amount, from, to } as input.
+export interface exchangeInputs extends exchangeDirection {
+  amount: string;
+}
+
 export interface SourceConfig {
   label: string;
   currency1: CurrencySymbol;
@@ -37,5 +42,5 @@ export interface CurrencyBase {
    */
   initiateData(source?: Source): Promise<void>;
   getCurrency(): AskBid[];
-  getExchange(amount: string, from: CurrencySymbol, to: CurrencySymbol): AskBidExchange[];
+  getExchange({ amount, from, to }: exchangeInputs): AskBidExchange[];
 }

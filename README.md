@@ -16,7 +16,8 @@ Is a wrapper of APIs to get currency and the exchange between two of them.
     ```typescript
       await currency.initiateData();
     ```
-   which internally call endpoint and save data to be used.
+   It will internally request for info and save data to be used, if you want to update
+   the data then call this method whenever you need it.
 \
 &nbsp;
 
@@ -34,7 +35,7 @@ Is a wrapper of APIs to get currency and the exchange between two of them.
 - You can get exchange between two currencies.
   amount, from and to parameters
   ```typescript
-  currency.getExchange('300', CurrencySymbol.USD, CurrencySymbol.ARG)
+  currency.getExchange({ amount : '300', from: CurrencySymbol.USD, to: CurrencySymbol.ARG })
   ```
   response:
   ```json
@@ -50,4 +51,4 @@ Is a wrapper of APIs to get currency and the exchange between two of them.
 2. Add Strategy on /Strategy Folder, adding parseCurrencyData() is needed, use other strategies as reference.
 
 # examples
-See examples at [examples](/examples) folders, installing globally ts-node and do `ts-node <filename.ts>` is recomended.
+See examples at [examples](https://github.com/vismael/dolar-sdk/blob/master/examples/getDolarValue.ts) folders, installing globally ts-node and do `ts-node <filename.ts>` is recomended.
