@@ -1,5 +1,6 @@
 // need to required like this to be use on web  https://github.com/jsdom/jsdom/issues/1284#issuecomment-154397199
-const JSDOM = require('jsdom');
+const jsdom = require('jsdom');
+const { JSDOM } = jsdom;
 
 class HTMLParser {
   rawHTML: string;

@@ -1,6 +1,6 @@
 {
   "name": "dolar-exchange-sdk",
-  "version": "1.1.18",
+  "version": "1.1.19",
   "description": "Currency SDK. currently the objetive is implement dolar exchanges",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
