@@ -8,12 +8,14 @@ const main = async (): Promise<void> => {
   const usd = CurrencySymbol.USD;
   const arg = CurrencySymbol.ARG;
   await currency.initiateData();
+  console.log('DOLAR SI');
   console.table(currency.getCurrency());
   console.log('USD -> ARG');
   console.table(currency.getExchange({ amount, from: usd, to: arg }));
   console.log('ARG -> USD');
   console.table(currency.getExchange({ amount, from: arg, to: usd }));
 
+  console.log('DOLAR HOY');
   await currency.initiateData(Source.DOLAR_HOY);
   console.table(currency.getCurrency());
   console.log('USD -> ARG');

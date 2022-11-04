@@ -1,6 +1,4 @@
-// need to required like this to be use on web  https://github.com/jsdom/jsdom/issues/1284#issuecomment-154397199
-const jsdom = require('jsdom');
-const { JSDOM } = jsdom;
+import { JSDOM } from 'jsdom';
 
 class HTMLParser {
   rawHTML: string;
