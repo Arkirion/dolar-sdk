@@ -16,13 +16,16 @@ export const sourcesConfig: SourceConfigList = {
     label: 'Dolar Si',
     currency1: CurrencySymbol.USD,
     currency2: CurrencySymbol.ARG,
-    url: 'https://www.dolarsi.com/api/api.php?type=valoresprincipales',
+    url: ['https://www.dolarsi.com/api/api.php?type=valoresprincipales'],
   },
   [Source.DOLAR_HOY]: {
     label: 'Dolar Hoy',
     currency1: CurrencySymbol.USD,
     currency2: CurrencySymbol.ARG,
-    url: 'https://dolarhoy.com',
+    url: [
+      'https://dolarhoy.com/i/cotizaciones/dolar-bancos-y-casas-de-cambio',
+      'https://dolarhoy.com/i/cotizaciones/dolar-blue',
+    ],
   },
 };
 

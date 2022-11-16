@@ -10,6 +10,14 @@ export function formatValue(stringValue: string): BigNumber {
   return new BigNumber(result);
 }
 
+export function getTextBetween(
+  text: string,
+  startReference: string,
+  endReference: string
+): RegExpMatchArray {
+  return text.match(`${startReference}(.*)${endReference}`);
+}
+
 /**
  * Calculate exchange formula, it should be always with 1 and the other value the current market value
  * method can calculate one way and the other

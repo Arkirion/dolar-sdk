@@ -28,7 +28,7 @@ export interface SourceConfig {
   label: string;
   currency1: CurrencySymbol;
   currency2: CurrencySymbol;
-  url: string;
+  url: string[];
 }
 
 export type SourceConfigList<V = SourceConfig> = { [key: string]: V };

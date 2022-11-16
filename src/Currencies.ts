@@ -16,7 +16,7 @@ export class Currencies implements CurrencyBase {
   rawData: any;
   currencyData: AskBid[];
   source: Source;
-  URL: string;
+  URLS: string[];
   label: string;
 
   constructor(source: Source) {
@@ -37,7 +37,7 @@ export class Currencies implements CurrencyBase {
   }
 
   private buildData(): void {
-    this.URL = sourcesConfig[this.source].url;
+    this.URLS = [...sourcesConfig[this.source].url];
     this.label = sourcesConfig[this.source].label;
     this.currencyData = [];
   }
@@ -57,8 +57,10 @@ export class Currencies implements CurrencyBase {
     }
 
     try {
-      const { data } = await axios.get(this.URL);
-      this.rawData = data;
+      const requests = this.URLS.map((url: string): any => {
+        return axios.get(url);
+      });
+      this.rawData = await axios.all(requests);
       this.currencyData = this.parseCurrencyData(this.rawData);
     } catch (error) {
       throw new Error(`'${this.label}' data not available.`);
