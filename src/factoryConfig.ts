@@ -22,10 +22,7 @@ export const sourcesConfig: SourceConfigList = {
     label: 'Dolar Hoy',
     currency1: CurrencySymbol.USD,
     currency2: CurrencySymbol.ARG,
-    url: [
-      'https://dolarhoy.com/i/cotizaciones/dolar-bancos-y-casas-de-cambio',
-      'https://dolarhoy.com/i/cotizaciones/dolar-blue',
-    ],
+    url: ['https://dolar-api-wrapper-fjap.vercel.app/dolarhoy'],
   },
 };
 
