@@ -7,8 +7,8 @@ class DolarHoyStrategy implements CurrencyStrategy {
   parseCurrencyData(rawData: any[]): AskBid[] {
     const data = rawData[0].data;
     // TODO: Fix api
-    const ofiPosition = data[0].label === 'oficial' ? 1 : 0;
-    const bluePosition = ofiPosition === 1 ? 0 : 1;
+    const ofiPosition = data[0].label === 'oficial' ? 0 : 1;
+    const bluePosition = data[0].label === 'blue' ? 0 : 1;
 
     return [
       {
